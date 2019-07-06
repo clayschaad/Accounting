@@ -1,0 +1,35 @@
+﻿@model List<Schaad.Accounting.Models.BankTransaction>
+
+<h2>@ViewData["Title"] (@Model.Count)</h2>
+
+<table id="bankTransactions" class="stripe hover" data-order='[[ 0, "desc" ], [ 1 , "desc"], [2, "asc"]]'>
+    <thead>
+        <tr>
+            <th>Valutadatum</th>
+            <th>Buchungsdatum</th>
+            <th>Text</th>
+            <th class="dt-right">Betrag</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.OrderBy(t => t.ValueDate))
+        {
+            <tr>
+                <td>@line.ValueDate.ToString("dd.MM.yyyy")</td>
+                <td>@line.BookingDate.ToString("dd.MM.yyyy")</td> 
+                <td>@line.Text</td>
+                <td class="dt-right">@line.Value.ToString("#,0.00")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts
+{
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        helper.createDataTable('#bankTransactions');
+    } );
+</script>
+}

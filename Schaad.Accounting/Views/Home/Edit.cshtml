@@ -1,0 +1,82 @@
+﻿@using Schaad.Accounting.Common.Extensions;
+@model List<Schaad.Accounting.Models.Transaction>
+@{
+    Layout = "";
+}
+
+<div class="row">
+    <div class="col-lg-2">Valuta</div>
+    <div class="col-lg-2">Betrag</div>
+    <div class="col-lg-4">Text</div>
+    <div class="col-lg-3">Konto</div>
+    <div class="col-lg-1"></div>
+</div>
+ <div class="row">
+    <div class="col-lg-12">
+        &nbsp;
+    </div>
+</div>
+
+@foreach (var transaction in Model)
+{
+    <form id="form@(transaction.BankTransactionId)" class="openTransactionEditForm" action="/Home/SaveTransaction" method="POST">
+        <div class="row">
+            <div class="col-lg-2">
+                <input type="text" class="form-control" name="ValueDate" value='@transaction.ValueDate.ToString("dd.MM.yyyy")' readonly="readonly"/>
+                <input type="hidden" class="form-control" name="BookingDate" value='@transaction.BookingDate.ToString("dd.MM.yyyy")' />
+            </div>
+            <div class="col-lg-2">
+                <input type="text" class="form-control" value='@Math.Abs(transaction.Value).ToFormattedString()' readonly="readonly" style="text-align: right" />
+                <input type="hidden" name="Value" value='@Math.Abs(transaction.Value)' />
+            </div>
+            <div class="col-lg-4">
+                <input class="form-control textList" name="Text" value="@transaction.Text" />
+            </div>
+            <div class="col-lg-3">
+                @if (transaction.Value < 0)
+                {
+                    <input type="text" class="accountList form-control" name="TargetAccountId" value="@transaction.TargetAccountId" />
+                    <input type="hidden" name="OriginAccountId" value="@transaction.OriginAccountId" />
+                }
+                else
+                {
+                    <input type="hidden" name="TargetAccountId" value="@transaction.TargetAccountId" />
+                    <input type="text" class="accountList form-control" name="OriginAccountId" value="@transaction.OriginAccountId" />
+                }
+            </div>
+            <div class="col-lg-1">
+                <button type="submit" class="form-control">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </button>
+                <input type="hidden" name="BankTransactionId" value="@transaction.BankTransactionId" />
+                <input type="hidden" name="BankTransactionText" value="@transaction.BankTransactionText" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-11 bankTransactionText">
+                <span>@transaction.BankTransactionText</span>
+            </div>
+            <div class="col-lg-1">
+            </div>
+        </div>
+        <div class="row fxrate ui-helper-hidden">
+            <div class="col-lg-2">
+                Währungskurs:
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" name="FxRate" class="form-control" value='@transaction.FxRate' />
+            </div>
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-1">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                &nbsp;
+            </div>
+        </div>
+    </form>
+}

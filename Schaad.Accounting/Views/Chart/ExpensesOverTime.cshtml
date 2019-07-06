@@ -1,0 +1,18 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div id="lineChartExpenses"></div>
+    </div>
+</div>   
+<hr />  
+
+@section scripts
+{
+    <script>
+        $(function () {
+
+            helper.get('/Chart/GetExpensesOverTimeChart', function (data) {
+                helper.showLineChart('#lineChartExpenses', 'Ausgaben pro Monat', 'ohne Konten ohne Bewegung', 'CHF', data);
+            });
+        });
+    </script>
+}

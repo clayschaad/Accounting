@@ -1,0 +1,37 @@
+﻿<div class="row">
+    <div class="col-lg-6">
+        <div id="pieChartExpenses" width="400" height="400"></div>
+    </div>
+    <div class="col-lg-6">
+        <div id="pieChartExpensesDetail" width="400" height="400"></div>
+    </div>
+</div>   
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div id="transactionList"></div>
+    </div>
+</div>   
+
+@section scripts
+{
+    <script>
+        $(function () {
+
+            helper.get('/Chart/GetExpensesChart', function (data) {
+                helper.showPieChart('#pieChartExpenses', 'Ausgaben', data, function (id, name)
+                {
+                    helper.get('/Chart/GetExpensesDetailChart?subClass=' + id, function (subdata) {
+                        $('#transactionList').html('');
+                        helper.showPieChart('#pieChartExpensesDetail', name, subdata, function (id, name) {
+                            helper.addPartialHtml('/Account/GetTransactionList/' + id, '#transactionList', function () {
+                                helper.createDataTable('#transactions');
+                                helper.setEditTransactionClick('a.edit');
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}

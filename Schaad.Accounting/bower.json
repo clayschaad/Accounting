@@ -1,0 +1,18 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3.3.7",
+    "jquery": "2.2.0",
+    "jquery-validation": "1.14.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "datatables": "datatable#~1.10.15",
+    "select2": "~4.0.3",
+    "highcharts": "~5.0.12",
+    "moment": "~2.18.1",
+    "datatables-plugins": "~1.10.15",
+    "chart.js": "Chart.js#~2.6.0",
+    "jquery-ui": "~1.12.1",
+    "underscore": "~1.8.3"
+  }
+}

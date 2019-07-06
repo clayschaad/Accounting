@@ -1,0 +1,37 @@
+﻿@model Schaad.Accounting.Models.BookingRule
+@{
+    Layout = "";
+}
+
+<form asp-controller="BookingRule" asp-action="Save" method="post" class="form-horizontal" role="form" autocomplete="off">
+    <div class="form-group">
+        <label asp-for="LookupText" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="LookupText" class="form-control" value="@Model.LookupText" data-validate="true"/>
+        </div>
+    </div>
+     <div class="form-group">
+        <label asp-for="LookupValue" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="LookupValue" class="form-control" value="@Model.LookupValue" data-validate="true"/>
+        </div>
+    </div>
+     <div class="form-group">
+        <label asp-for="BookingText" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="BookingText" class="form-control textList" value="@Model.BookingText" data-validate="true"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="AccountId" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="AccountId" class="form-control accountList" value="@Model.AccountId" data-validate="true"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-4 col-lg-8">
+            <input type="submit" value="Speichern" class="btn btn-default" />
+        </div>
+    </div>
+    <input name="Id" value="@Model.Id" class="form-control hidden" />
+</form>

@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buchhaltung - @ViewData["Title"]</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
+        <link rel="stylesheet" href="~/lib/DataTables/media/css/jquery.dataTables.css" />
+        <link rel="stylesheet" href="~/lib/select2/dist/css/select2.css"/>
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
+        <link rel="stylesheet" href="~/lib/DataTables/media/css/jquery.dataTables.css" />
+        <link rel="stylesheet" href="~/lib/select2/dist/css/select2.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*<a class="navbar-brand" href="#">Brand</a>*@
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li> 
+                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Transaktionen <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Transaction" asp-action="Index">Transaktionen</a></li>
+                            <li><a asp-controller="BankTransaction" asp-action="Index">Bank Transaktionen</a></li>
+                        </ul>
+                    </li>            
+                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Chart" asp-action="Expenses">Ausgaben-Chart</a></li>
+                            <li><a asp-controller="Chart" asp-action="ExpensesOverTime">Ausgaben im Verlauf</a></li>
+                            <li><a asp-controller="Chart" asp-action="Assets">Vermögen</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a asp-controller="Report" asp-action="ProfitLoss">Erfolgsrechnung</a></li>
+                            <li><a asp-controller="Report" asp-action="Detail">Detailaufstellung</a></li>
+                            <li><a asp-controller="Report" asp-action="Balance">Bilanz</a></li>
+                            <li><a asp-controller="Report" asp-action="BalanceSheet">Jahresabschluss</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Stammdaten <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="BookingRule" asp-action="Index">Buchungsregeln</a></li>
+                            <li><a asp-controller="BookingText" asp-action="Index">Buchungstexte</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a asp-controller="SubClass" asp-action="Index">Klassen</a></li>
+                            <li><a asp-controller="Account" asp-action="Index">Konten</a></li>
+                        </ul>
+                    </li>
+                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Einstellungen <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Home" asp-action="Backup">Backup</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" method="post" asp-action="Upload" asp-controller="Home" enctype="multipart/form-data" autocomplete="off">
+                    <div class="form-group">
+                        <input type="file" class="form-control" name="files" multiple placeholder="mt940" size="200">
+                    </div>
+                    <button type="submit" class="btn btn-default">Import</button>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mandant: <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Home" asp-action="ChangeMandator" asp-route-id="Claudio Schaad">Claudio Schaad</a></li>
+                            <li><a asp-controller="Home" asp-action="ChangeMandator" asp-route-id="Mannenbach">Mannenbach</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation"><a href="#">@Helper.GetSession(Context, "Mandator")</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Jahr: <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @for(int y = 2015; y <= DateTime.Now.Year; y++)
+                            {
+                                <li><a asp-controller="Home" asp-action="ChangeYear" asp-route-id="@y">@y</a></li>
+                            }
+                        </ul>
+                    </li>
+                    <li role="presentation"><a href="#">@Helper.GetSession(Context, "Year")</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+
+    <div class="container-fluid body-content">
+
+        @RenderBody()
+
+        <div id="dialog" title="Edit">
+        </div>
+        <hr  class="hidePrint"/>
+        <footer class="hidePrint">
+            <p>&copy; 2016-2018 - Claudio Schaad</p>
+        </footer>
+    </div>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="~/lib/jquery-ui/ui/i18n/datepicker-de.js"></script>
+        <script src="~/lib/DataTables/media/js/jquery.dataTables.js"></script>
+        <script src="~/lib/moment/moment.js"></script>
+        <script src="~/lib/datatables-plugins/sorting/datetime-moment.js"></script>
+        <script src="~/lib/select2/dist/js/select2.full.js"></script>
+        <script src="~/lib/highcharts/highcharts.js"></script>
+        <script src="~/lib/highcharts/modules/exporting.js"></script>
+        <script src="~/lib/highcharts/modules/offline-exporting.js"></script>
+        <script src="~/lib/underscore/underscore.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/jquery-ui/ui/i18n/datepicker-de.js"></script>
+        <script src="~/lib/DataTables/media/js/jquery.dataTables.min.js"></script>
+        <script src="~/lib/moment/min/moment.min.js"></script>
+        <script src="~/lib/datatables-plugins/sorting/datetime-moment.js"></script>
+        <script src="~/lib/select2/dist/js/select2.full.min.js"></script>
+        <script src="~/lib/highcharts/highcharts.js"></script>
+        <script src="~/lib/highcharts/modules/exporting.js"></script>
+        <script src="~/lib/highcharts/modules/offline-exporting.js"></script>
+        <script src="~/lib/underscore/underscore-min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <script>
+        $(function () {
+             helper.init();
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

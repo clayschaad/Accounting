@@ -1,0 +1,87 @@
+﻿@using Schaad.Accounting.Datasets;
+@using Schaad.Accounting.Common.Extensions;
+@model List<Schaad.Accounting.Models.BankTransaction>
+@{
+    ViewData["Title"] = "Offene  Banktransaktionen";
+    List<int> transactionList = ViewBag.TransactionList as List<int>;
+    List<MessageDataset> messages = ViewBag.Messages as List<MessageDataset>;
+}
+<h2>Offene Banktransaktionen (@Model.Count)</h2>
+
+@if (messages != null)
+{
+    @foreach (var message in messages)
+    {
+        <div class="alert @message.GetCssAlertClass() alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <p>@message.Title</p>
+                @foreach (var msg in message.Lines)
+                {
+                    <p>@msg</p>
+                }
+        </div>
+    }
+}
+
+<a id="editOpenTransactions" title="Assistent für offene Transaktionen"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+<a id="addTransaction" title="Neue Transaktion erstellen"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+
+<table id="bankTransactions" class="stripe hover" data-order='[[ 0, "asc" ]]'>
+    <thead>
+        <tr>
+            <th>Valutadatum</th>
+            <th>Buchungsdatum</th>
+            <th>Text</th>
+            <th class="dt-right">Betrag</th>
+            <th class="dt-right"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.OrderBy(t => t.ValueDate))
+        {
+            <tr>
+                <td>@line.ValueDate.ToString("dd.MM.yyyy")</td>
+                <td>@line.BookingDate.ToString("dd.MM.yyyy")</td>
+                <td>@line.Text</td>
+                <td class="dt-right">@line.Value.ToFormattedString()</td>
+                <td class="dt-right">
+                    <a data-id="@line.Id" class="split" title="Transaktion splitten">
+                        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+
+        helper.createDataTable('#bankTransactions');
+
+        $("#editOpenTransactions")
+          .button()
+          .click(function (event) {
+              helper.get(
+                  "/Home/Edit",
+                  function (res) { helper.showOpenBankTransactionDialog(res); }
+                  );
+          });
+
+        $('a.split').button().click(function (event) {
+            var id = $(this).data('id');
+            helper.get(
+                  "/Home/Split/" + id,
+                  function (res) {
+                      helper.showSplitBankTransactionDialog(res);
+                    }
+                  );
+        });
+
+
+        helper.setEditTransactionClick('#addTransaction');
+    } );
+    </script>
+}

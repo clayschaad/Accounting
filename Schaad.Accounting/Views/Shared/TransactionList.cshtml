@@ -1,0 +1,9 @@
+﻿@model List<Schaad.Accounting.Models.Transaction>
+@{
+    Layout = "";
+}
+
+@foreach (var transaction in Model)
+{
+    @Html.Partial("Transaction", transaction)
+}

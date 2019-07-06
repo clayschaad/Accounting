@@ -1,0 +1,44 @@
+﻿@using Schaad.Accounting.Common.Extensions;
+@model List<Schaad.Accounting.Datasets.BookingRuleDataset>
+
+<h2>@ViewData["Title"] (@Model.Count)</h2>
+
+<a class="edit" title="Neue Buchungsregel erstellen"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+
+<table id="bookingRules" class="stripe hover" data-order='[[ 0, "asc" ]]'>
+    <thead>
+        <tr>
+            <th>Text</th>
+            <th class="dt-right">Betrag</th>
+            <th>Buchungstext</th>
+            <th>Konto</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model)
+        {
+            <tr>
+                <td>@line.LookupText</td>
+                <td class="dt-right">@line.LookupValue.ToFormattedString()</td>
+                <td>@line.BookingText</td>
+                <td>@line.Account</td>
+                <td class="dt-right">
+                    <a class="edit" data-id="@line.Id">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        helper.createDataTable('#bookingRules');
+        helper.setEditClick('a.edit', 'BookingRule');
+    } );
+    </script>
+}

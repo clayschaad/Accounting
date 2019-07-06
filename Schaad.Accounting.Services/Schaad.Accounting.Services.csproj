@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Schaad.Accounting.Common\Schaad.Accounting.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Schaad.Finance">
+      <HintPath>..\dlls\Schaad.Finance.dll</HintPath>
+    </Reference>
+    <Reference Include="Schaad.Finance.Api">
+      <HintPath>..\dlls\Schaad.Finance.Api.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

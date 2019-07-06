@@ -1,0 +1,118 @@
+@using Schaad.Accounting.Common.Extensions;
+@model List<Schaad.Accounting.Datasets.AccountDataset>
+@{
+    var profit = Math.Abs(Model.Where(m => m.Class == 3).Sum(m => m.Balance));
+    var loss = Math.Abs(Model.Where(m => m.Class == 4).Sum(m => m.Balance));
+    var win = profit-loss;
+    List<Schaad.Accounting.Datasets.TransactionDataset> trxList = ViewBag.TrxList;   
+}
+
+<h2>@ViewData["Title"]</h2>
+<a href="javascript:window.print()" class="hidePrint">Print</a>
+<br />
+<br />
+<table class="report">
+    <thead>
+        <tr>
+            <th>Konto</th>
+            <th>Bezeichnung</th>
+            <th class="right">Betrag</th>
+        </tr>
+        <tr>
+            <th colspan="3"><hr /></th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="3" class="header">Einkünfte</td>
+    </tr>
+    <tr>
+        <td colspan="3"><hr /></td>
+    </tr>
+@foreach(var account in Model.Where(m => m.Class == 3).OrderBy(m => m.Number))
+{
+    @if (account.Balance == 0) {continue;}
+
+    <tr>
+        <td class="header">@account.Number</td>
+        <td class="header">@account.Name</td>
+        <td class="header right">@Math.Abs(account.Balance).ToFormattedString()</td>
+    </tr>
+
+        @foreach(var trx in trxList.Where(t => t.TargetAccountId == account.Id || t.OriginAccountId == account.Id).OrderBy(t => t.ValueDate))
+        {
+            <tr>
+                <td>@trx.ValueDate.ToString("dd.MM.yyyy")</td>
+                <td>@trx.Text</td>
+                <td class="right">
+                    @if (trx.OriginAccountId == account.Id)
+                    {
+                        @trx.Value.ToFormattedString();
+                    }
+                    else 
+                    {
+                        <span>-</span>@trx.Value.ToFormattedString();
+                    }
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3"><hr /></td>
+        </tr>
+}
+    <tr>
+        <td colspan="2" class="total right">Total Einkünfte</td>
+        <td class="right total">@profit.ToFormattedString()</td>
+    </tr>
+    <tr>
+        <td colspan="3"><hr /></td>
+    </tr>
+    <tr>
+        <td colspan="3" class="header">Ausgaben</td>
+    </tr>
+    <tr>
+        <td colspan="3"><hr /></td>
+    </tr>
+@foreach(var account in Model.Where(m => m.Class == 4).OrderBy(m => m.Number))
+{
+    @if (account.Balance == 0) {continue;}
+
+    <tr>
+        <td class="header">@account.Number</td>
+        <td class="header">@account.Name</td>
+        <td class="header right">@Math.Abs(account.Balance).ToFormattedString()</td>
+    </tr>
+
+    @foreach(var trx in trxList.Where(t => t.TargetAccountId == account.Id || t.OriginAccountId == account.Id).OrderBy(t => t.ValueDate))
+        {
+            <tr>
+                <td>@trx.ValueDate.ToString("dd.MM.yyyy")</td>
+                <td>@trx.Text</td>
+                <td class="right">
+                    @if (trx.TargetAccountId == account.Id)
+                    {
+                        @trx.Value.ToFormattedString();
+                    }
+                    else 
+                    {
+                        <span>-</span>@trx.Value.ToFormattedString();
+                    }
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3"><hr /></td>
+        </tr>
+}
+    <tr>
+        <td colspan="2" class="total right">Total Ausgaben</td>
+        <td class="right total">@loss.ToFormattedString()</td>
+    </tr>
+    <tr>
+        <td colspan="4" style="height: 30px">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="4" class="footer">@ViewData["Footer"]</td>
+    </tr>
+    </tbody>
+</table>

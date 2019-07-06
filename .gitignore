@@ -3,3 +3,16 @@
 ################################################################################
 
 /.vs
+/Schaad.Accounting/.vscode
+/Schaad.Accounting/bin
+/Schaad.Accounting/obj
+/Schaad.Accounting.Common/bin
+/Schaad.Accounting.Common/obj
+/Schaad.Accounting.Db/bin
+/Schaad.Accounting.Db/obj
+/Schaad.Accounting.Services/bin
+/Schaad.Accounting.Services/obj
+/Schaad.Accounting/appsettings.json
+/Schaad.Accounting/appsettings.Development.json
+*.user
+/Schaad.Accounting/wwwroot/lib

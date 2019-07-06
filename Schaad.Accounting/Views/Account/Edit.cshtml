@@ -1,0 +1,49 @@
+﻿@model Schaad.Accounting.Models.Account
+@{
+    Layout = "";
+}
+
+<form asp-controller="Account" asp-action="Save" method="post" class="form-horizontal" role="form" autocomplete="off">
+    <div class="form-group">
+        <label asp-for="Number" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="Number" class="form-control" value="@Model.Number" data-validate="true" />
+        </div>
+    </div>
+     <div class="form-group">
+        <label asp-for="Name" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="Name" class="form-control" value="@Model.Name" data-validate="true"/>
+        </div>
+    </div>
+     <div class="form-group">
+        <label asp-for="Currency" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="Currency" class="form-control textList" value="@Model.Currency" data-validate="true"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="BankAccountNumber" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="BankAccountNumber" class="form-control" value="@Model.BankAccountNumber" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartBalance" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="StartBalance" class="form-control" value="@Model.StartBalance" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastBankBalance" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="LastBankBalance" class="form-control" value="@Model.LastBankBalance" readonly="readonly"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-4 col-lg-8">
+            <input type="submit" value="Speichern" class="btn btn-default" />
+        </div>
+    </div>
+    <input name="Id" value="@Model.Id" class="form-control hidden" />
+</form>

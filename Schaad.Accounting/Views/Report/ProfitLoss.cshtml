@@ -1,0 +1,104 @@
+@using Schaad.Accounting.Common.Extensions;
+@model List<Schaad.Accounting.Datasets.AccountDataset>
+@{
+    var profit = Math.Abs(Model.Where(m => m.Class == 3).Sum(m => m.Balance));
+    var loss = Math.Abs(Model.Where(m => m.Class == 4).Sum(m => m.Balance));
+    var win = profit-loss;
+}
+
+<h2>@ViewData["Title"]</h2>
+<a href="javascript:window.print()" class="hidePrint">Print</a>
+<br />
+<br />
+<table class="report">
+    <thead>
+        <tr>
+            <th>Konto</th>
+            <th>Bezeichnung</th>
+            <th class="right">Aufwand</th>
+            <th class="right">Ertrag</th>
+        </tr>
+        <tr>
+            <th colspan="4"><hr /></th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="4" class="header">Einkünfte</td>
+    </tr>
+    <tr>
+        <td colspan="4"><hr /></td>
+    </tr>
+@foreach(var account in Model.Where(m => m.Class == 3).OrderBy(m => m.Number))
+{
+    @if (account.Balance == 0) {continue;}
+
+    <tr>
+        <td>@account.Number</td>
+        <td>@account.Name</td>
+        <td></td>
+        <td class="right">@Math.Abs(account.Balance).ToFormattedString()</td>
+    </tr>
+}
+    <tr>
+        <td colspan="4"><hr /></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="total">Total Einkünfte</td>
+        <td></td>
+        <td class="right total">@profit.ToFormattedString()</td>
+    </tr>
+    <tr>
+        <td colspan="4"><hr /></td>
+    </tr>
+    <tr>
+        <td colspan="4" class="header">Ausgaben</td>
+    </tr>
+    <tr>
+        <td colspan="4"><hr /></td>
+    </tr>
+@foreach(var account in Model.Where(m => m.Class == 4).OrderBy(m => m.Number))
+{
+    @if (account.Balance == 0) {continue;}
+    
+    <tr>
+        <td>@account.Number</td>
+        <td>@account.Name</td>
+        <td class="right">@Math.Abs(account.Balance).ToFormattedString()</td>
+        <td></td>
+    </tr>
+}
+    <tr>
+        <td colspan="4"><hr /></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="total">Total Ausgaben</td>
+        <td class="right total">@loss.ToFormattedString()</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="4"><hr /></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="total"></td>
+        <td class="right total">@loss.ToFormattedString()</td>
+        <td class="right total">@profit.ToFormattedString()</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="total">Gewinn/Verlust</td>
+        <td class="right total sum">@win.ToFormattedString()</td>
+        <td class="right total sum"></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="total">Total</td>
+        <td class="right total sum">@profit.ToFormattedString()</td>
+        <td class="right total sum">@profit.ToFormattedString()</td>
+    </tr>
+    <tr>
+        <td colspan="4" style="height: 30px">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="4" class="footer">@ViewData["Footer"]</td>
+    </tr>
+    </tbody>
+</table>

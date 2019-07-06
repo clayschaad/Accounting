@@ -1,0 +1,52 @@
+﻿@using Schaad.Accounting.Common.Extensions;
+@model List<Schaad.Accounting.Datasets.AccountDataset>
+@{
+    ViewData["Title"] = "Transaktionen";
+}
+<h2>Transaktionen</h2>
+
+<a class="edit" title="Neue Transaktion erstellen"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="list-group scrollable">
+            @foreach (var cl in Model.GroupBy(c => c.Class).Select(c => new { Key = c.Key, Data = c }))
+            {
+                <a href="#" class="list-group-item disabled">@cl.Key @cl.Data.First().ClassName</a>
+
+                foreach (var account in cl.Data)
+                {
+                    <a href="#" data-id="@account.Id" class="list-group-item">
+                        <span class="badge">@Math.Abs(account.Balance).ToFormattedString()</span>
+                        @string.Format("{0} / {1}", account.Number, account.Name)
+                    </a>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-lg-8">
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        helper.setScrollbar('.scrollable');
+
+        $('a.list-group-item:not(.disabled)').click(function (event) {
+            var id = $(this).data('id');
+            $('a.list-group-item').removeClass('active');
+            $(this).addClass('active');
+            helper.addPartialHtml('/Account/GetTransactionList/' + id, 'div.col-lg-8', function ()
+            {
+                helper.createDataTable('#transactions');
+                helper.setEditTransactionClick('a.edit');
+            });
+        });
+
+        $('a.list-group-item:not(.disabled):first').click();
+    } );
+    </script>
+}

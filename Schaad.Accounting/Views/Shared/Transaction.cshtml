@@ -1,0 +1,31 @@
+﻿@model Schaad.Accounting.Models.Transaction
+@{
+    Layout = "";
+}
+
+<div class="row">
+    <div class="col-lg-2">
+        <input type="text" class="form-control datepicker" name="ValueDate" value='@Model.ValueDate.ToString("dd.MM.yyyy")'/>
+        <input type="hidden" class="form-control" name="BookingDate" value='@Model.BookingDate.ToString("dd.MM.yyyy")' />
+    </div>
+    <div class="col-lg-2">
+        <input type="text" class="form-control" name="Value" value="@Math.Abs(Model.Value)" style="text-align: right"/>
+    </div>
+    <div class="col-lg-4">
+        <input class="form-control textList" name="Text" value="@Model.Text" />
+    </div>
+    <div class="col-lg-3">
+        @if (Model.Value < 0)
+        {
+            <input type="text" class="accountList form-control" name="TargetAccountId" value="@Model.TargetAccountId" />
+            <input type="text" class="hidden" name="OriginAccountId" value="@Model.OriginAccountId" />
+        }
+        else
+        {
+            <input type="text" class="hidden" name="TargetAccountId" value="@Model.TargetAccountId" />
+            <input type="text" class="accountList form-control" name="OriginAccountId" value="@Model.OriginAccountId" />
+        }
+    </div>
+        <input name="BankTransactionId" value="@Model.BankTransactionId" class="hidden" />
+        <input name="BankTransactionText" value="@Model.BankTransactionText" class="hidden" />
+</div>

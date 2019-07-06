@@ -1,0 +1,58 @@
+﻿@model Schaad.Accounting.Models.Transaction
+@{
+    Layout = "";
+    var hideFxClass = "ui-helper-hidden";
+    if (Model.FxRate != null) 
+    {
+        hideFxClass = "";
+    }
+}
+
+<form asp-controller="Transaction" asp-action="Save" method="post" class="form-horizontal" role="form" autocomplete="off">
+    <div class="form-group">
+        <label asp-for="ValueDate" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="ValueDate" class="form-control datepicker" value="@Model.ValueDate.Date.ToString("dd.MM.yyyy")"/>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label asp-for="OriginAccountId" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="OriginAccountId" class="form-control accountList" value="@Model.OriginAccountId" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="TargetAccountId" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="TargetAccountId" class="form-control accountList" value="@Model.TargetAccountId" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Value" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="Value" class="form-control" value="@Model.Value"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Text" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8">
+            <input name="Text" class="form-control textList" value="@Model.Text" />
+        </div>
+    </div> 
+    <div class="form-group fxrate @hideFxClass">
+        <label asp-for="FxRate" class="col-lg-4 control-label"></label>
+        <div class="col-lg-6">
+            <input name="FxRate" class="form-control" value="@Model.FxRate"/>
+        </div>
+        <div class="col-lg-2">
+            <a class="getFxRate" title="Wechselkurs holen"><span class="glyphicon glyphicon-euro" aria-hidden="true"></span></a>
+        </div>
+    </div>  
+    <div class="form-group">
+        <div class="col-lg-offset-4 col-lg-8">
+            <input type="submit" value="Speichern" class="btn btn-default" />
+        </div>
+    </div>
+    <input name="Id" value="@Model.Id" class="form-control hidden" />
+    <input name="BankTransactionId" value="@Model.BankTransactionId" class="form-control hidden" />
+</form>

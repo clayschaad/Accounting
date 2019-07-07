@@ -8,4 +8,9 @@
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Schaad.Finance.Api">
+      <HintPath>..\dlls\Schaad.Finance.Api.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

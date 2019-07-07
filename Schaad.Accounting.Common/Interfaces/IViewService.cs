@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Schaad.Accounting.Datasets;
 using Schaad.Accounting.Datasets.Reports;
 using Schaad.Accounting.Models;
+using Schaad.Finance.Api.Datasets;
 
 namespace Schaad.Accounting.Interfaces
 {
@@ -24,5 +25,7 @@ namespace Schaad.Accounting.Interfaces
         List<BankTransaction> GetOpenBankTransactionList();
 
         List<Transaction> MatchOpenBankTransactions();
+
+        List<Transaction> MatchCreditCardTransactions(string bankTransactionId, IReadOnlyList<CreditCardTransaction> creditCardTransactions);
     }
 }

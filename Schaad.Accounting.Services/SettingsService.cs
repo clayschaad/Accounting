@@ -86,6 +86,16 @@ namespace Schaad.Accounting.Services
             return uploadPath;
         }
 
+        public string GetCreditCardStatementPath()
+        {
+            var path = Path.Combine(GetUploadPath(), "creditCard");
+            if (Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+
         public string GetDbPath()
         {
             var path = Path.Combine(GetYearMandatorPath(), "Data");

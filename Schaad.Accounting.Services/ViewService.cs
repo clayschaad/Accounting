@@ -6,6 +6,7 @@ using Schaad.Accounting.Datasets.Reports;
 using Schaad.Accounting.Interfaces;
 using Schaad.Accounting.Models;
 using Schaad.Finance.Api;
+using Schaad.Finance.Api.Datasets;
 
 namespace Schaad.Accounting.Services
 {
@@ -211,7 +212,7 @@ namespace Schaad.Accounting.Services
             foreach (var bankTransaction in bankTransactions)
             {
                 var trx = new Transaction(bankTransaction, accounts);
-                MatchBankTransactionByBookingRule(bankTransaction, trx, bookingRules);
+                MatchBankTransactionByBookingRule(bankTransaction.Text, trx, bookingRules);
                 MatchBankTransactionBySameAccountsLastMonth(bankTransaction, trx, transactions);
                 MatchBankTransactionBySameValueLastMonth(bankTransaction, trx, transactions);
                 newTransactionList.Add(trx);
@@ -219,13 +220,39 @@ namespace Schaad.Accounting.Services
             return newTransactionList;
         }
 
-        private void MatchBankTransactionByBookingRule(BankTransaction bankTransaction, Transaction trx, List<BookingRule> bookingRules)
+        public List<Transaction> MatchCreditCardTransactions(string bankTransactionId, IReadOnlyList<CreditCardTransaction> creditCardTransactions)
+        {
+            var accounts = accountRepository.GetAccountList();
+            var bankTrx = bankTransactionRepository.GetBankTransaction(bankTransactionId);
+            var bookingRules = bookingRuleRepository.GetBookingRuleList();
+
+            var trxList = new List<Transaction>();
+            foreach (var creditCardTransaction in creditCardTransactions)
+            {
+                var trx = new Transaction(bankTrx, accounts);
+                trx.Value = -1 * creditCardTransaction.Amount;
+                trx.BookingDate = creditCardTransaction.BookingDate;
+                trx.ValueDate = creditCardTransaction.TransactionDate;
+
+                MatchBankTransactionByBookingRule(creditCardTransaction.Transaction, trx, bookingRules);
+
+                if (string.IsNullOrEmpty(trx.Text))
+                {
+                    trx.Text = creditCardTransaction.Transaction;
+                }
+                trxList.Add(trx);
+            }
+
+            return trxList;
+        }
+
+        private void MatchBankTransactionByBookingRule(string transactionText, Transaction trx, List<BookingRule> bookingRules)
         {
             if (string.IsNullOrEmpty(trx.Text) == false)
                 return;
 
             // all booking rules that match the text
-            var matchedRules = bookingRules.Where(r => bankTransaction.Text.ToLowerInvariant().Contains(r.LookupText.ToLowerInvariant())).ToList();
+            var matchedRules = bookingRules.Where(r => transactionText.ToLowerInvariant().Contains(r.LookupText.ToLowerInvariant())).ToList();
 
             // then match by value
             var matchedRule = matchedRules.FirstOrDefault(r => r.LookupValue == Math.Abs(trx.Value));

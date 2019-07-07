@@ -318,17 +318,7 @@
         helper.createDatepicker(".datepicker");
 
         $(document).on('change', 'input[name="Value"]', function () {
-            // calc sum of transaction
-            var sum = 0;
-            $("input[name='Value']").each(function() {
-                sum += Number($(this).val());
-            });
-            // show rest to total balance
-            var rest = Math.round(100 * (Number($('#totalBalance').text().replace('\'', '')) - sum)) / 100;
-            $('#restBalance').html(rest);
-            // enable submit button if no rest
-            if (rest == 0) $('#saveSplit').removeAttr('disabled');
-            else $('#saveSplit').attr('disabled');
+            helper.calculateSplitForm();
         });
 
         $('#addEmptyTransaction')
@@ -338,10 +328,11 @@
                 helper.get(
                     "/Home/GetEmptyTransaction/" + id,
                     function (content) {
-                        $('#formSplit div.row:last').after(content);
+                        $('#saveSplit').before(content);
                         helper.createAccountList(".accountList");
                         helper.createBookingTextList(".textList");
                         helper.createDatepicker(".datepicker");
+                        helper.calculateSplitForm();
                     }
                 );
             });
@@ -353,15 +344,32 @@
                 helper.get(
                     "/Home/GetSplitPredefiniton/" + id,
                     function (content) {
-                        $('#formSplit div.row:last').after(content);
+                        $('#saveSplit').before(content);
                         helper.createAccountList(".accountList");
                         helper.createBookingTextList(".textList");
                         helper.createDatepicker(".datepicker");
+                        helper.calculateSplitForm();
                     }
                 );
             });
 
-        $('form').on('submit', function (e) {
+        $('#importCreditCardStatement')
+            .button()
+            .click(function (event) {
+                var id = $(this).data('id');
+                helper.get(
+                    "/Home/GetCreditCardStatement/" + id,
+                    function (content) {
+                        $('#saveSplit').before(content);
+                        helper.createAccountList(".accountList");
+                        helper.createBookingTextList(".textList");
+                        helper.createDatepicker(".datepicker");
+                        helper.calculateSplitForm();
+                    }
+                );
+            });
+
+        $('#formSplit').on('submit', function (e) {
             e.preventDefault();
 
             var url = $(this).attr('action') || window.location.pathname;
@@ -381,6 +389,21 @@
                 }
             );
         });
+    },
+
+    calculateSplitForm: function ()
+    {
+        // calc sum of transaction
+        var sum = 0;
+        $("input[name='Value']").each(function () {
+            sum += Number($(this).val());
+        });
+        // show rest to total balance
+        var rest = Math.round(100 * (Number($('#totalBalance').text().replace('\'', '')) - sum)) / 100;
+        $('#restBalance').html(rest);
+        // enable submit button if no rest
+        if (rest == 0) $('#saveSplit').removeAttr('disabled');
+        else $('#saveSplit').attr('disabled');
     },
 
     serializeForm: function(form)

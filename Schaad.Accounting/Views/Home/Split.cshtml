@@ -1,6 +1,7 @@
 ﻿@using Schaad.Accounting.Common.Extensions;
 @model Schaad.Accounting.Models.Transaction
 @{
+    var lastCreditCardStatement = ViewBag.LastCreditCardStatement != null ? System.IO.Path.GetFileName(ViewBag.LastCreditCardStatement) : null;
     Layout = "";
 }
 
@@ -11,7 +12,14 @@
     <div class="col-lg-2">Restbetrag:</div>
     <div class="col-lg-3" id="restBalance">@Math.Abs(Model.Value).ToFormattedString()</div>
     <div class="col-lg-2">
-        <a id="addSplitPredefinition" data-id="@Model.BankTransactionId" title="Splitt-Vordefinition laden"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
+        @if (string.IsNullOrEmpty(lastCreditCardStatement))
+        {
+            <a id="addSplitPredefinition" data-id="@Model.BankTransactionId" title="Splitt-Vordefinition laden"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
+        }
+        else
+        {
+            <a id="importCreditCardStatement" data-id="@Model.BankTransactionId" title="letzte Credit Card Abrechnung laden: @lastCreditCardStatement"><span class="glyphicon glyphicon-subtitles" aria-hidden="true"></span></a>
+        }
         <a id="addEmptyTransaction" data-id="@Model.BankTransactionId" title="Neue Transaktion hinzufügen"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
     </div>
 </div>
@@ -25,7 +33,5 @@
 </div>
 
 <form id="formSplit" action="/Home/SaveSplitTransaction" method="POST" autocomplete="off">
-   @Html.Partial("Transaction", Model)
-    <br />
     <input id="saveSplit" type="submit" value="Speichern" class="btn btn-default" disabled/>
 </form>

@@ -6,6 +6,7 @@ using Schaad.Accounting.Common.Extensions;
 using Schaad.Accounting.Datasets;
 using Schaad.Accounting.Interfaces;
 using Schaad.Finance.Api;
+using Schaad.Finance.Api.Datasets;
 
 namespace Schaad.Accounting.Services
 {
@@ -16,19 +17,22 @@ namespace Schaad.Accounting.Services
         private readonly IBankTransactionRepository bankTransactionRepository;
         private readonly ISettingsService settingsService;
         private readonly IAccountStatementService accountStatementService;
+        private readonly ICreditCardStatementService creditCardStatementService;
 
         public FileService(
             ISettingsService settingsService,
             IAccountRepository accountRepository,
             ITransactionRepository transactionsRepository,
             IBankTransactionRepository bankTransactionRepository,
-            IAccountStatementService accountStatementService)
+            IAccountStatementService accountStatementService,
+            ICreditCardStatementService creditCardStatementService)
         {
             this.settingsService = settingsService;
             this.accountRepository = accountRepository;
             this.transactionsRepository = transactionsRepository;
             this.bankTransactionRepository = bankTransactionRepository;
             this.accountStatementService = accountStatementService;
+            this.creditCardStatementService = creditCardStatementService;
         }
 
         public string Backup()
@@ -41,7 +45,7 @@ namespace Schaad.Accounting.Services
 
         // Upload account statement file (mt940, camt053)
         // http://www.mikesdotnetting.com/article/288/asp-net-5-uploading-files-with-asp-net-mvc-6
-        public List<MessageDataset> ImportAccountStatementFile(string filePath)
+        public IReadOnlyList<MessageDataset> ImportAccountStatementFile(string filePath)
         {
             var messages = new List<MessageDataset>();
             var accountStatementResults = accountStatementService.ReadFile(filePath, Encoding.UTF8);
@@ -99,6 +103,12 @@ namespace Schaad.Accounting.Services
             }
 
             return messages;
+        }
+
+        public IReadOnlyList<CreditCardTransaction> ImportCreditCardStatementFile(CreditCardProvider creditCardProvider, string filePath)
+        {
+            var creditCardTransactions = creditCardStatementService.ReadFile(creditCardProvider, filePath, Encoding.UTF8);
+            return creditCardTransactions;
         }
 
         public byte[] GetTransactionListCsv(string accountId)

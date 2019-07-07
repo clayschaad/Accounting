@@ -22,6 +22,8 @@ namespace Schaad.Accounting.Interfaces
 
         string GetUploadPath();
 
+        string GetCreditCardStatementPath();
+
         string GetDbPath();
 
         string GetLastYearDbPath();

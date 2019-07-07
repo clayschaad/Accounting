@@ -10,6 +10,7 @@ using Microsoft.Net.Http.Headers;
 using Schaad.Accounting.Datasets;
 using Schaad.Accounting.Interfaces;
 using Schaad.Accounting.Models;
+using Schaad.Finance.Api;
 
 namespace Schaad.Accounting.Controllers
 {
@@ -79,28 +80,46 @@ namespace Schaad.Accounting.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Upload(ICollection<IFormFile> files)
+        public async Task<IActionResult> Upload(ICollection<IFormFile> files, string fileType)
         {
             var messageList = new List<MessageDataset>();
-            var uploads = settingsService.GetUploadPath();
+            
             foreach (var file in files)
             {
                 if (file.Length > 0)
                 {
-                    var fileName = DateTime.Now.ToString("yyyyMMdd") + "_" +
-                                   Path.GetFileName(ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim('"'));
-                    var serverFileName = Path.Combine(uploads, fileName);
-                    using (var fs = new FileStream(serverFileName, FileMode.Create))
+                    switch (fileType)
                     {
-                        await file.CopyToAsync(fs);
-                    }
-                    var messages = fileService.ImportAccountStatementFile(serverFileName);
-                    messageList.AddRange(messages);
+                        case "BankStatement":
+                            var uploads = settingsService.GetUploadPath();
+                            var serverFileName = await SaveFile(file, uploads);
+                            var messages = fileService.ImportAccountStatementFile(serverFileName);
+                            messageList.AddRange(messages);
+                            break;
+
+                        case "CreditCardStatement":
+                            var ccFiles = settingsService.GetCreditCardStatementPath();
+                            await SaveFile(file, ccFiles);
+                            break;
+
+                    } 
                 }
             }
 
             ViewBag.Messages = messageList;
             return Index();
+        }
+
+        private async Task<string> SaveFile(IFormFile file, string folder)
+        {
+            var fileName = DateTime.Now.ToString("yyyyMMdd") + "_" +
+                                   Path.GetFileName(ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim('"'));
+            var serverFileName = Path.Combine(folder, fileName);
+            using (var fs = new FileStream(serverFileName, FileMode.Create))
+            {
+                await file.CopyToAsync(fs);
+            }
+            return serverFileName;
         }
 
         /// <summary>
@@ -134,6 +153,7 @@ namespace Schaad.Accounting.Controllers
             var accounts = accountRepository.GetAccountList();
             var bankTrx = bankTransactionRepository.GetBankTransaction(id);
             var trx = new Transaction(bankTrx, accounts);
+            ViewBag.LastCreditCardStatement = Directory.GetFiles(settingsService.GetCreditCardStatementPath()).OrderByDescending(s => s).FirstOrDefault();
             return View("Split", trx);
         }
 
@@ -155,6 +175,19 @@ namespace Schaad.Accounting.Controllers
                 .ToList();
             var res = PartialView("TransactionList", trxList);
             return res;
+        }
+
+        public IActionResult GetCreditCardStatement(string id)
+        {
+            var lastCreditCardFile = Directory.GetFiles(settingsService.GetCreditCardStatementPath()).OrderByDescending(s => s).FirstOrDefault();
+            if (!string.IsNullOrEmpty(lastCreditCardFile))
+            {
+                var creditCardTransactions = fileService.ImportCreditCardStatementFile(CreditCardProvider.Cembra, lastCreditCardFile);
+                var trxList = viewService.MatchCreditCardTransactions(id, creditCardTransactions);
+                var res = PartialView("TransactionList", trxList);
+                return res;
+            }
+            return null;
         }
 
         [HttpPost]

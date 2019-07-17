@@ -182,7 +182,7 @@ namespace Schaad.Accounting.Controllers
             var lastCreditCardFile = Directory.GetFiles(settingsService.GetCreditCardStatementPath()).OrderByDescending(s => s).FirstOrDefault();
             if (!string.IsNullOrEmpty(lastCreditCardFile))
             {
-                var creditCardTransactions = fileService.ImportCreditCardStatementFile(CreditCardProvider.Cembra, lastCreditCardFile);
+                var creditCardTransactions = fileService.ImportCreditCardStatementFile(CreditCardProvider.CembraPdf, lastCreditCardFile);
                 var trxList = viewService.MatchCreditCardTransactions(id, creditCardTransactions);
                 var res = PartialView("TransactionList", trxList);
                 return res;

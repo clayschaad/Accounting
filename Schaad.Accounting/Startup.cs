@@ -111,7 +111,7 @@ namespace Schaad.Accounting
             container.Register<IAccountStatementService, AccountStatementService>();
             container.Register<ICreditCardStatementService, CreditCardStatementService>();
             container.Register<IFxService, FxService>(Lifestyle.Singleton);
-
+            container.Register<IPdfParsingService, PdfParsingService>(Lifestyle.Singleton);
 
             // Cross-wire ASP.NET services (if any):
             container.RegisterInstance(app.ApplicationServices.GetService<ILoggerFactory>());

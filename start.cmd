@@ -1,4 +1,4 @@
-cd C:\Users\schaa\Accounting
+cd D:\Accounting
 git fetch && git checkout master
 git pull
 cd Schaad.Accounting

@@ -326,7 +326,7 @@
             .click(function (event) {
                 var id = $(this).data('id');
                 helper.get(
-                    "/Home/GetEmptyTransaction/" + id,
+                    "/Home/GetEmptyTransaction/" + encodeURIComponent(id),
                     function (content) {
                         $('#saveSplit').before(content);
                         helper.createAccountList(".accountList");
@@ -342,7 +342,7 @@
             .click(function (event) {
                 var id = $(this).data('id');
                 helper.get(
-                    "/Home/GetSplitPredefiniton/" + id,
+                    "/Home/GetSplitPredefiniton/" + encodeURIComponent(id),
                     function (content) {
                         $('#saveSplit').before(content);
                         helper.createAccountList(".accountList");
@@ -358,7 +358,7 @@
             .click(function (event) {
                 var id = $(this).data('id');
                 helper.get(
-                    "/Home/GetCreditCardStatement/" + id,
+                    "/Home/GetCreditCardStatement/" + encodeURIComponent(id),
                     function (content) {
                         $('#saveSplit').before(content);
                         helper.createAccountList(".accountList");

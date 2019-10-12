@@ -73,7 +73,7 @@
         $('a.split').button().click(function (event) {
             var id = $(this).data('id');
             helper.get(
-                  "/Home/Split/" + id,
+                  "/Home/Split/" + encodeURIComponent(id),
                   function (res) {
                       helper.showSplitBankTransactionDialog(res);
                     }

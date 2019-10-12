@@ -150,6 +150,7 @@ namespace Schaad.Accounting.Controllers
         /// <returns></returns>
         public IActionResult Split(string id)
         {
+            id = Uri.UnescapeDataString(id);
             var accounts = accountRepository.GetAccountList();
             var bankTrx = bankTransactionRepository.GetBankTransaction(id);
             var trx = new Transaction(bankTrx, accounts);
@@ -159,6 +160,7 @@ namespace Schaad.Accounting.Controllers
 
         public IActionResult GetEmptyTransaction(string id)
         {
+            id = Uri.UnescapeDataString(id);
             var accounts = accountRepository.GetAccountList();
             var bankTrx = bankTransactionRepository.GetBankTransaction(id);
             var trx = new Transaction(bankTrx, accounts);
@@ -167,6 +169,7 @@ namespace Schaad.Accounting.Controllers
 
         public IActionResult GetSplitPredefiniton(string id)
         {
+            id = Uri.UnescapeDataString(id);
             var accounts = accountRepository.GetAccountList();
             var bankTrx = bankTransactionRepository.GetBankTransaction(id);
             var splitDefinitionList = splitPredefinitonRepository.GetSplitPredefinitionList();
@@ -179,6 +182,7 @@ namespace Schaad.Accounting.Controllers
 
         public IActionResult GetCreditCardStatement(string id)
         {
+            id = Uri.UnescapeDataString(id);
             var lastCreditCardFile = Directory.GetFiles(settingsService.GetCreditCardStatementPath()).OrderByDescending(s => s).FirstOrDefault();
             if (!string.IsNullOrEmpty(lastCreditCardFile))
             {

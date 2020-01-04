@@ -80,7 +80,7 @@
     <tr>
         <td class="header">@account.Number</td>
         <td class="header">@account.Name</td>
-        <td class="header right">@Math.Abs(account.Balance).ToFormattedString()</td>
+        <td class="header right">@account.Balance.ToFormattedString()</td>
     </tr>
 
     @foreach(var trx in trxList.Where(t => t.TargetAccountId == account.Id || t.OriginAccountId == account.Id).OrderBy(t => t.ValueDate))

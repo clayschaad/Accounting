@@ -91,9 +91,9 @@ namespace Schaad.Accounting.Services
             var accountList = GetAccountViewList();
 
             var settings = settingsService.GetSettings();
-            var profit = accountList.Where(m => m.Class == ClassIds.Income).Sum(m => Math.Abs(m.BalanceCHF));
-            profit += accountList.Where(m => m.Class == ClassIds.Activa).Sum(m => fxService.ConvertCurrency(Math.Abs(m.StartBalance), m.Currency, "CHF", settings.FixerIoApiKey));
-            var loss = accountList.Where(m => m.Class == ClassIds.Expenses).Sum(m => Math.Abs(m.BalanceCHF));
+            var profit = Math.Abs(accountList.Where(m => m.Class == ClassIds.Income).Sum(m =>m.BalanceCHF));
+            profit += Math.Abs(accountList.Where(m => m.Class == ClassIds.Activa).Sum(m => fxService.ConvertCurrency(m.StartBalance, m.Currency, "CHF", settings.FixerIoApiKey)));
+            var loss = Math.Abs(accountList.Where(m => m.Class == ClassIds.Expenses).Sum(m => m.BalanceCHF));
 
             var balanceView = new BalanceSheetDataset(
                     activaAccountList: accountList.Where(m => m.Class == ClassIds.Activa).ToList(),

@@ -52,7 +52,7 @@
             <tr>
                 <td>@account.Number</td>
                 <td>@account.Name</td>
-                <td class="right">@Math.Abs(account.BalanceCHF).ToFormattedString()</td>
+                <td class="right">@account.BalanceCHF.ToFormattedString()</td>
             </tr>
         }
         <tr>
@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <td colspan="2">Total Ausgaben</td>
-            <td class="right sum">@Model.LossCHF.ToFormattedString()</td>
+            <td class="right sum">-@Model.LossCHF.ToFormattedString()</td>
         </tr>
         <tr>
             <td colspan="2" class="total">Übertrag @(Model.Year + 1)</td>

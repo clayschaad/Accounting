@@ -1,0 +1,17 @@
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.deps.json
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.runtimeconfig.json
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.runtimeconfig.dev.json
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.dll
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.pdb
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.AccountingML.Model.dll
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.AccountingML.Model.pdb
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\obj\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.csprojAssemblyReference.cache
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\obj\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.AssemblyInfoInputs.cache
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\obj\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.AssemblyInfo.cs
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\obj\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.csproj.CopyComplete
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\obj\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.dll
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\obj\Debug\netcoreapp2.1\Schaad.AccountingML.ConsoleApp.pdb
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\MLModel.zip
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.Accounting.Common.dll
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.Finance.Api.dll
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.ConsoleApp\bin\Debug\netcoreapp2.1\Schaad.Accounting.Common.pdb

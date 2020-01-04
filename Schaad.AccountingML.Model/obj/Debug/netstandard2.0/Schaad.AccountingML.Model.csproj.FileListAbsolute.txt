@@ -1,0 +1,9 @@
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\bin\Debug\netstandard2.0\Schaad.AccountingML.Model.deps.json
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\bin\Debug\netstandard2.0\Schaad.AccountingML.Model.dll
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\bin\Debug\netstandard2.0\Schaad.AccountingML.Model.pdb
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\obj\Debug\netstandard2.0\Schaad.AccountingML.Model.csprojAssemblyReference.cache
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\obj\Debug\netstandard2.0\Schaad.AccountingML.Model.AssemblyInfoInputs.cache
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\obj\Debug\netstandard2.0\Schaad.AccountingML.Model.AssemblyInfo.cs
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\obj\Debug\netstandard2.0\Schaad.AccountingML.Model.dll
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\obj\Debug\netstandard2.0\Schaad.AccountingML.Model.pdb
+D:\Documents\Developer\GitHub\Accounting\Schaad.AccountingML.Model\bin\Debug\netstandard2.0\MLModel.zip

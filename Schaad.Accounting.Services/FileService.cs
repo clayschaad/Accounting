@@ -80,7 +80,9 @@ namespace Schaad.Accounting.Services
                                 Value = (decimal)t.Value,
                                 ValueDate = t.ValueDate,
                                 BookingDate = t.BookingDate,
-                                Text = t.Text
+                                Text = t.Text,
+                                Debtor = t.Debtor,
+                                Creditor = t.Creditor
                             })
                         .ToList();
                     var count = bankTransactionRepository.SaveBankTransactionList(account.AccountNumber, transactionsThisYear);

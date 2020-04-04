@@ -15,6 +15,8 @@ namespace Schaad.Accounting.Models
         /// </summary>
         public string BankTransactionText { get; set; }
 
+        public string RelatedParty { get; set; }
+
         [Display(Name = "Valuta")]
         public DateTime ValueDate { get; set; }
 
@@ -51,9 +53,15 @@ namespace Schaad.Accounting.Models
             // Depending on positiv or negative value, set the account
             var bankAccount = accounts.FirstOrDefault(a => a.BankAccountNumber == bankTransaction.BankAccountNumber);
             if (Value >= 0)
+            {
                 TargetAccountId = bankAccount.Id;
+                RelatedParty = bankTransaction.Debtor;
+            }
             else
+            {
                 OriginAccountId = bankAccount.Id;
+                RelatedParty = bankTransaction.Creditor;
+            }
         }
 
         /// <summary>

@@ -19,6 +19,9 @@ namespace Schaad.Accounting.Models
 
         public string BankAccountNumber { get; set; }
 
+        public string Debtor { get; set; }
+        public string Creditor { get; set; }
+
         public bool Ignore { get; set; }
     }
 }

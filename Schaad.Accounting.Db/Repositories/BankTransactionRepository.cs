@@ -42,7 +42,9 @@ namespace Schaad.Accounting.Repositories
                         ValueDate = bankTrx.ValueDate,
                         Value = (decimal)bankTrx.Value,
                         Text = bankTrx.Text,
-                        BankAccountNumber = bankAccountNumber
+                        BankAccountNumber = bankAccountNumber,
+                        Debtor = bankTrx.Debtor,
+                        Creditor = bankTrx.Creditor,
                     };
                     transactions.Add(transaction);
                     count++;

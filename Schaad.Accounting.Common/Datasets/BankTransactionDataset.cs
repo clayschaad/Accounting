@@ -9,5 +9,7 @@ namespace Schaad.Accounting.Datasets
         public DateTime ValueDate { get; set; }
         public decimal Value { get; set; }
         public string Text { get; set; }
+        public string Debtor { get; set; }
+        public string Creditor { get; set; }
     }
 }

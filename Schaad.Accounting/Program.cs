@@ -32,7 +32,7 @@ namespace Schaad.Accounting
                 {
                     webBuilder.UseKestrel();
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
-		    webBuilder.UseUrls("http://localhost:5000", "http://192.168.1.51:5000");
+		            webBuilder.UseUrls("http://localhost:5000", "http://192.168.1.51:5000");
                     webBuilder.UseStartup<Startup>();
                 });
     }

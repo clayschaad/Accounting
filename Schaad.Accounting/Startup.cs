@@ -11,6 +11,7 @@ using Schaad.Accounting.Services;
 using Schaad.Finance.Api;
 using Schaad.Finance.Services;
 using System;
+using Schaad.Accounting.Converter;
 
 namespace Schaad.Accounting
 {
@@ -31,7 +32,11 @@ namespace Schaad.Accounting
         public void ConfigureServices(IServiceCollection services)
         {
             // ASP.NET default stuff here
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+               .AddJsonOptions(options =>
+               {
+                   options.JsonSerializerOptions.Converters.Add(new DecimalConverter());
+               });
 
             services.AddLogging();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -45,15 +50,15 @@ namespace Schaad.Accounting
                 // allows request-scoped framework services to be resolved.
                 options.AddAspNetCore()
 
-                    // Ensure activation of a specific framework type to be created by
-                    // Simple Injector instead of the built-in configuration system.
-                    // All calls are optional. You can enable what you need. For instance,
-                    // ViewComponents, PageModels, and TagHelpers are not needed when you
-                    // build a Web API.
-                    .AddControllerActivation()
-                    .AddViewComponentActivation()
-                    .AddPageModelActivation()
-                    .AddTagHelperActivation();
+                // Ensure activation of a specific framework type to be created by
+                // Simple Injector instead of the built-in configuration system.
+                // All calls are optional. You can enable what you need. For instance,
+                // ViewComponents, PageModels, and TagHelpers are not needed when you
+                // build a Web API.
+                .AddControllerActivation()
+                .AddViewComponentActivation()
+                .AddPageModelActivation()
+                .AddTagHelperActivation();
 
                 // Optionally, allow application components to depend on the non-generic
                 // ILogger (Microsoft.Extensions.Logging) or IStringLocalizer

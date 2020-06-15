@@ -5,5 +5,5 @@
 
 @foreach (var transaction in Model)
 {
-    @Html.PartialAsync("Transaction", transaction)
+    @Html.PartialAsync("Transaction", transaction).Result
 }

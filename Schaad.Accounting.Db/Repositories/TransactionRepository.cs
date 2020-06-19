@@ -34,7 +34,7 @@ namespace Schaad.Accounting.Repositories
             var isFxAccount = accountRepository.GetAccount(transaction.OriginAccountId).IsFxAccount;
 
             // if source account is fx account, we pass a foreign value -> calc to chf
-            if (isFxAccount && transaction.FxRate.HasValue)
+            if (isFxAccount && transaction.FxRate != 0)
             {
                 transaction.Value = transaction.Value * transaction.FxRate.Value;
             }
@@ -69,7 +69,7 @@ namespace Schaad.Accounting.Repositories
 
             // if source account is fx account, we save in chf currency -> calc to foreign currency for display
             var isFxAccount = accountRepository.GetAccount(transaction.OriginAccountId).IsFxAccount;
-            if (isFxAccount && transaction.FxRate.HasValue)
+            if (isFxAccount && transaction.FxRate != 0)
             {
                 transaction.Value = transaction.Value / transaction.FxRate.Value;
             }

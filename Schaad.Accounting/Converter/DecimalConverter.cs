@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -17,7 +18,7 @@ namespace Schaad.Accounting.Converter
         }
         public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            writer.WriteNumberValue(value);
         }
     }
 }

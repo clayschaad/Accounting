@@ -26,7 +26,7 @@ namespace Schaad.Accounting.Datasets
 
         public decimal GetValue(bool withFxRate)
         {
-            if (withFxRate && FxRate.HasValue && FxRate.Value != 0)
+            if (withFxRate && FxRate != 0)
             {
                 return Math.Round(Value / FxRate.Value, 2);
             }

@@ -17,6 +17,7 @@
     },
     "Schaad.Accounting": {
       "commandName": "Project",
+      "commandLineArgs": "localhost",
       "launchBrowser": true,
       "launchUrl": "http://localhost:5000",
       "environmentVariables": {

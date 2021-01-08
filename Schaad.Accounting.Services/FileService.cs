@@ -72,7 +72,7 @@ namespace Schaad.Accounting.Services
                 if (accountList.Contains(account.AccountNumber))
                 {
                     var transactionsThisYear = account.Transactions
-                        .Where(t => t.ValueDate.Year == settingsService.GetYear())
+                        .Where(t => t.BookingDate.Year == settingsService.GetYear())
                         .Select(
                             t => new BankTransactionDataset
                             {
@@ -95,7 +95,7 @@ namespace Schaad.Accounting.Services
                     var notImportedTransactions = account.Transactions.Where(t => transactionsThisYear.Select(tt => tt.Id).Contains(t.Id) == false);
                     foreach (var trx in notImportedTransactions)
                     {
-                        message.Add($"Transaktion wegen ValutaDatum {trx.ValueDate} nicht importiert: {trx.Text}", MessageStatus.Warning);
+                        message.Add($"Transaktion wegen BookingDatum {trx.BookingDate} nicht importiert: {trx.Text}", MessageStatus.Warning);
                     }
                 }
                 else

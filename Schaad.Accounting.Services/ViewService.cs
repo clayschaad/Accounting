@@ -231,7 +231,7 @@ namespace Schaad.Accounting.Services
             {
                 var trx = new Transaction(bankTrx, accounts);
                 trx.Value = -1 * creditCardTransaction.Amount;
-                trx.BookingDate = creditCardTransaction.BookingDate;
+                trx.BookingDate = bankTrx.BookingDate;
                 trx.ValueDate = creditCardTransaction.TransactionDate;
 
                 MatchBankTransactionByBookingRule(creditCardTransaction.Transaction, trx, bookingRules);

@@ -37,8 +37,8 @@
 <table id="transactions" class="stripe hover" data-order='[[ 0, "desc" ], [1, "desc"]]'>
     <thead>
         <tr>
-            <th>Valutadatum</th>
             <th>Buchungsdatum</th>
+            <th>Valutadatum</th>
             <th>Text</th>
             <th>Gegenkonto</th>
             <th class="dt-right">Soll</th>
@@ -50,8 +50,8 @@
         @foreach (var line in Model)
         {
             <tr>
-                <td>@line.ValueDate.ToString("dd.MM.yyyy")</td>
                 <td>@line.BookingDate.ToString("dd.MM.yyyy")</td>
+                <td>@line.ValueDate.ToString("dd.MM.yyyy")</td>
                 <td>@line.Text</td>
 
                 @if (ViewBag.AccountId == @line.OriginAccountId)

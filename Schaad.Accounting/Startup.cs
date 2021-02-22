@@ -36,6 +36,7 @@ namespace Schaad.Accounting
                .AddJsonOptions(options =>
                {
                    options.JsonSerializerOptions.Converters.Add(new DecimalConverter());
+                   options.JsonSerializerOptions.Converters.Add(new IntegerConverter());
                });
 
             services.AddLogging();

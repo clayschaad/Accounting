@@ -62,7 +62,11 @@ namespace Schaad.Accounting.Controllers
         [HttpPost]
         public JsonResult Save([FromBody] Account account)
         {
-            accountRepository.SaveAccount(account);
+            //if (ModelState.IsValid)
+            {
+                accountRepository.SaveAccount(account);      
+            }
+
             return new JsonResult("");
         }
     }

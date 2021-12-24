@@ -7,7 +7,7 @@ namespace Schaad.Accounting.Controllers
     /// <summary>
     /// Base of all controllers
     /// </summary>
-    public class BaseController : Controller
+    public class BaseController : Microsoft.AspNetCore.Mvc.Controller
     {
         protected void SetSession(string key, string value)
         {

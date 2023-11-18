@@ -30,7 +30,6 @@ namespace Schaad.Accounting
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    var host = args[0];
                     webBuilder.UseKestrel();
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseStartup<Startup>();

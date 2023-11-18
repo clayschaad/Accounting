@@ -33,7 +33,6 @@ namespace Schaad.Accounting
                     var host = args[0];
                     webBuilder.UseKestrel();
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
-		            webBuilder.UseUrls($"http://{host}:5000");
                     webBuilder.UseStartup<Startup>();
                 });
     }

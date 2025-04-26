@@ -98,7 +98,7 @@ namespace Schaad.Accounting
             container.Register<IFileService, FileService>();
             container.Register<IAccountStatementService, AccountStatementService>();
             container.Register<ICreditCardStatementService, CreditCardStatementService>();
-            container.Register<IFxService, FxService>(Lifestyle.Singleton);
+            container.Register<IFxService, DummyFxService>(Lifestyle.Singleton);
             container.Register<IPdfParsingService, PdfParsingService>(Lifestyle.Singleton);
         }
 
